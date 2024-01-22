@@ -1,11 +1,10 @@
 # Setting up a postgreSQL database in docker and ingesting data
 
-### This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
-#
+**This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.**
 
 ### Running a PostgreSQL Docker Container
 
-**Run the following command in the terminal to pull and run the PostgreSQL container:**
+Run the following command in the terminal to pull and run the PostgreSQL container:
 ```bash
 docker run -d \
 -e POSTGRES_USER="root" \
@@ -32,7 +31,7 @@ docker run -it
 ```bash
 pip install pgcli
 ```
-**Follow the steps outlined in this notebook to batch transfer the data into the PostgresSQL database:**
+Follow the steps outlined in this notebook to batch transfer the data into the PostgresSQL database:
 [data-upload-to-postgres.ipynb](data-upload-to-postgres.ipynb)
 
 **Data Source:**
@@ -40,7 +39,7 @@ pip install pgcli
 
 - Select January 2023 dropdown > (2023 January, "Yellow Taxi Trip Records")
 
-**Run this command to connect to the PostgreSQL database:**
+Run this command to connect to the PostgreSQL database:
 ```bash
 pgcli -h localhost -p 5432 -u root -d ny_taxi 
 ```
@@ -60,16 +59,16 @@ dpage/pgadmin4
 #
 
 ### Networking
-**Creating a Docker network to facilitate communication between PostgreSQL database and pgAdmin**
+Create a Docker network to facilitate communication between PostgreSQL database and pgAdmin:
 ```bash
 docker network create pg-network
 ```
 
 ### Connecting PostgreSQL and pgAdmin on the Same Network
 
-**Reconfigure both services to add them to the network:**
+Reconfigure both services to add them to the network
 
-**PostgreSQL Database with Network Configuration**
+PostgreSQL Database with Network Configuration:
 ```bash
 docker run -it \
 -e POSTGRES_USER="root" \
@@ -82,7 +81,7 @@ docker run -it \
 postgres:13
 ```
 
-**pgAdmin with Network Configuration**
+pgAdmin with Network Configuration:
 ```bash
 docker run -it \
 -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
