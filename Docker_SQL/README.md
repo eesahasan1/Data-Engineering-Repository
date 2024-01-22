@@ -1,6 +1,6 @@
 # Setting up a postgreSQL database in docker and ingesting data
 
-**This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.**
+## This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
 ### Running a PostgreSQL Docker Container
 
@@ -22,7 +22,7 @@ docker run -it
 
 ### Connecting to the PostgreSQL Database using `pgcli`
 
-**Ensure that pgcli is installed:**
+Ensure that pgcli is installed:
 - For command line interface use:
 ```bash
 !pip install pgcli
