@@ -45,7 +45,7 @@ pip install pgcli
 pgcli -h localhost -p 5432 -u root -d ny_taxi 
 ```
 <p align="left">
-  <img height="200" src="data/images/terminal.png">
+  <img height="200" src="/Users/gzuz/Repositories/GitHub/Data-Engineering-Repository/Docker_SQL/data/images/terminal.png">
   </a>
 </p>
 
