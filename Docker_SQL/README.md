@@ -45,7 +45,7 @@ pip install pgcli
 pgcli -h localhost -p 5432 -u root -d ny_taxi 
 ```
 
-![Alt text](data/images/terminal.png)
+<img src="data/images/terminal.png" height="220" align=left>
 
 #
 ### Running pgAdmin in a Docker Container
