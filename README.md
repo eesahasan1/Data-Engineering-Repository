@@ -8,7 +8,7 @@ As someone deeply fascinated by data and its incredible potential to drive progr
 ## Projects Overview 📁
 Here's a quick overview of what you'll find in this repository:
 
-**Project 1:** [Dockerized PostgreSQL for Data Engineering)](Docker_SQL)
+**Project 1:** [Dockerized PostgreSQL for Data Engineering](Docker_SQL)
 
 This repository is a comprehensive guide to setting up a PostgreSQL database within a Docker container, tailored for data ingestion and analysis. It provides detailed instructions on running a PostgreSQL Docker container, connecting to the database using pgcli, and managing the database through pgAdmin, all within a Dockerized environment. Key elements include creating a Docker network for seamless communication between the PostgreSQL database and pgAdmin, and integrating batch data transfer from external sources. The repository also includes an alternative method for database interaction using Jupyter notebooks. This setup is ideal for those looking to explore data engineering concepts in a practical, hands-on manner
 
@@ -31,7 +31,7 @@ This repository features projects using a variety of technologies and tools pert
 ## Learning Resources 📚
 I've learned a lot from various resources during my data engineering journey. Here are some of the materials that I found particularly helpful:
 
-1. https://github.com/DataTalksClub/data-engineering-zoomcamp
+1. [Datatalksclub Data Engineering Course](https://github.com/DataTalksClub/data-engineering-zoomcamp)
 2. Chatgpt
 
 
