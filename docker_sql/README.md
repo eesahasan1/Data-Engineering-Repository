@@ -36,7 +36,7 @@ Ensure that pgcli is installed:
 pip install pgcli
 ```
 Follow the steps outlined in this notebook to batch transfer the data into the PostgresSQL database:
-[data-upload-to-postgres.ipynb](data-upload-to-postgres.ipynb)
+[data-upload-to-postgres](data-upload-to-postgres.ipynb)
 
 **Data Source:**
 > https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
@@ -109,7 +109,7 @@ jupyter nbconvert --to=script data-upload-to-postgres.ipynb
 ```
 
 ### Automating Data Ingestion
-The script [automating-data-ingestion](/docker_sql/automating-data-ingestion.py) demonstrates how to automate the data ingestion process
+The script [automating-data-ingestion](automating-data-ingestion.py) demonstrates how to automate the data ingestion process
 ```bash
 python automating-data-ingestion.py \
   --user=root \
@@ -122,7 +122,7 @@ python automating-data-ingestion.py \
 ```
 
 ### Building and Running a Dockerized Data Ingestion Script
-To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. The Dockerfile can be found at [Dockerfile](/Data-Engineering-Repository/docker_sql/Dockerfile).
+To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. The Dockerfile can be found at [Dockerfile](Dockerfile).
 
 Run the following command to build the Docker image based on the Dockerfile:
 ```bash
