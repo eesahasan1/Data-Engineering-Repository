@@ -6,8 +6,6 @@
 - Docker installed and running
 - Basic knowledge of command-line interfaces and Docker commands
 
-### Building a Custom Dockerfile
-
 ### Running a PostgreSQL Docker Container
 
 Run the following command in the terminal to pull and run the PostgreSQL container:
