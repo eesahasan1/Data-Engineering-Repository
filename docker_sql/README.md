@@ -129,29 +129,37 @@ The original Dockerfile without comments can be found here [Dockerfile](Dockerfi
 ```Dockerfile
 FROM python:3.11.4 
 "
-this line sets the base image for the Docker container. Here, it's using the official Python Docker image tagged with 3.11.4, which means this container will have Python version 3.11.4 installed.
+This line sets the base image for the Docker container. 
+Here, it's using the official Python Docker image tagged with 3.11.4, 
+which means this container will have Python version 3.11.4 installed.
 "
 RUN pip install pandas sqlalchemy psycopg2 pyarrow requests
 "
-this command runs pip install inside the container, which is Python's package installer. It's used to install several Python libraries:
+This command runs pip install inside the container, which is Python's package installer. 
+It's used to install several Python libraries:
 
-# pandas: A data manipulation and analysis library.
-# sqlalchemy: A SQL toolkit and Object-Relational Mapping (ORM) library.
-# psycopg2: A PostgreSQL database adapter for Python.
-# pyarrow: Provides Python bindings to the Apache Arrow data format.
-# requests: A library for making HTTP requests.
+pandas: A data manipulation and analysis library.
+sqlalchemy: A SQL toolkit and Object-Relational Mapping (ORM) library.
+psycopg2: A PostgreSQL database adapter for Python.
+pyarrow: Provides Python bindings to the Apache Arrow data format.
+requests: A library for making HTTP requests.
 "
 WORKDIR /app 
 "
-this instruction sets the working directory in the container to /app. All subsequent commands will be run from this directory. If the directory does not exist, it will be created.
+This instruction sets the working directory in the container to "/app". 
+All subsequent commands will be run from this directory. 
+If the directory does not exist, it will be created.
 "
 COPY automating-data-ingestion.py automating-data-ingestion.py
 "
-this line copies the automating-data-ingestion.py file from your local machine (the Docker context) into the container. The file is placed in the containers working directory (/app, as set by the previous WORKDIR instruction).
+This line copies the automating-data-ingestion.py file from the local machine into the container. 
+The file is placed in the containers working directory "/app", as set by the previous WORKDIR instruction).
 "
 ENTRYPOINT [ "python", "automating-data-ingestion.py"]
 "
-specifies the command to be executed when the container starts. In this case, it's executing the Python script automating-data-ingestion.py with Python. Essentially, when the container starts, it will run python automating-data-ingestion.py.
+Specifies the command to be executed when the container starts. 
+In this case, it's executing the Python script "automating-data-ingestion.py" with Python. 
+Essentially, when the container starts, it will run "python" and the script "automating-data-ingestion.py"
 "
 ```
 
@@ -207,7 +215,7 @@ services: # defines the different containers (services) that make up the  applic
 ```
 #
 ### SQL Queries
-After running the Docker compose file and all the environmental variables and dependencis are set up, all that's is to begin analyzing the data. 
+After running the Docker compose file and all the environmental variables and dependencies are set up, all that's left is to begin analyzing the data. 
 
 Sample queries:
 ![Alt text](data/images/image.png)
