@@ -2,6 +2,12 @@
 
 ## This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
+### Prerequisites
+- Docker installed and running
+- Basic knowledge of command-line interfaces and Docker commands
+
+### Building a Custom Dockerfile
+
 ### Running a PostgreSQL Docker Container
 
 Run the following command in the terminal to pull and run the PostgreSQL container:
@@ -38,6 +44,9 @@ Follow the steps outlined in this notebook to batch transfer the data into the P
 > https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 - Select January 2023 dropdown > (2023 January, "Yellow Taxi Trip Records")
+- Or directly download the file using the this link:
+> https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet
+
 
 Run this command to connect to the PostgreSQL database:
 ```bash
@@ -93,5 +102,51 @@ dpage/pgadmin4
 ```
 - Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances.
 #
-
 ### Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
+
+### Convert a Jupyter Notebook to a Script to Run in Cli
+```bash
+jupyter nbconvert --to=script data-upload-to-postgres.ipynb
+```
+
+### Automating Data Ingestion
+The script [automating-data-ingestion](/Data-Engineering-Repository/docker_sql/automating-data-ingestion.py) demonstrates how to automate the data ingestion process
+```bash
+python automating-data-ingestion.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=yellow_taxi_data \
+  --url=${URL}
+```
+
+### Building and Running a Dockerized Data Ingestion Script
+To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. The Dockerfile can be found at [Dockerfile](/Data-Engineering-Repository/docker_sql/Dockerfile).
+
+Run the following command to build the Docker image based on the Dockerfile:
+```bash
+docker build -t taxi_ingest:v001 .
+```
+- The "." signifies the current directory, indicating where Docker should look for the Dockerfile.
+- Refer to [Dockerfile](/Data-Engineering-Repository/docker_sql/Dockerfile) to see how I built the image
+
+### Executing the Data Ingestion Container
+First, set the URL in your command line:
+```bash
+URL=https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet
+```
+Then, run the Docker container:
+```bash
+docker run -it \
+  --network=pg-network \
+  taxi_ingest:v001 \
+    --user=root \
+    --password=root \
+    --host=pg-database \
+    --port=5432 \
+    --db=ny_taxi \
+    --table_name=yellow_taxi_data \
+    --url=${URL}
+```
