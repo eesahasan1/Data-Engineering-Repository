@@ -109,7 +109,7 @@ jupyter nbconvert --to=script data-upload-to-postgres.ipynb
 ```
 
 ### Automating Data Ingestion
-The script [automating-data-ingestion](/automating-data-ingestion.py) demonstrates how to automate the data ingestion process
+The script [automating-data-ingestion](data/automating-data-ingestion.py) demonstrates how to automate the data ingestion process
 ```bash
 python automating-data-ingestion.py \
   --user=root \
