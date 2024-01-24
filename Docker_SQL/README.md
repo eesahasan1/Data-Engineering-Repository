@@ -101,6 +101,7 @@ dpage/pgadmin4
 - Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances.
 #
 ### Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
+#
 
 ### Convert a Jupyter Notebook to a Script to Run in Cli
 ```bash
