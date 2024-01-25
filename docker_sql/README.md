@@ -1,14 +1,15 @@
-# Setting up a postgreSQL database in docker and ingesting data
+# Setting up a PostgreSQL Database in Docker for Ingesting data and Data Analysis
 
-## This guide outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
+## This project outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
 ### Prerequisites
 - Docker installed and running
-- Basic knowledge of command-line interfaces and Docker commands
+- Basic knowledge of command-line interfaces, Docker commands, and pandas
 
+#
 ### Running a PostgreSQL Docker Container
 
-Run the following command in the terminal to pull and run the PostgreSQL container:
+Run the following command in cli to start a PostgreSQL container:
 ```bash
 docker run -d \
 -e POSTGRES_USER="root" \
@@ -19,21 +20,21 @@ docker run -d \
 postgres:13
 ```
 - `docker run -d` runs the container in the background allowing you to still use the command interface
-- for an interactive session, use: 
+- For an interactive session, replace `-d` with `-it`
 ```
 docker run -it
 ```
 
 ### Connecting to the PostgreSQL Database using `pgcli`
 
-Ensure that pgcli is installed:
-- For command line interface use:
+Istall pgcli for a command-line interface experience:
+- In a terminal:
 ```bash
-!pip install pgcli
+pip install pgcli
 ```
 - In python or jupyter environment, use:
 ```bash
-pip install pgcli
+!pip install pgcli
 ```
 Follow the steps outlined in this notebook to batch transfer the data into the PostgresSQL database:
 [data-upload-to-postgres](data-upload-to-postgres.ipynb)
@@ -54,7 +55,8 @@ pgcli -h localhost -p 5432 -u root -d ny_taxi
 
 #
 ### Running pgAdmin in a Docker Container
-**To manage the PostgreSQL database through a web interface, run pgAdmin using this command:**
+
+To manage the PostgreSQL database through a web interface, start pgAdmin using this command:
 ```bash
 docker run -d \
 -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
@@ -62,10 +64,11 @@ docker run -d \
 -p 8080:80 \
 dpage/pgadmin4
 ```
-- Access pgAdmin by navigating to "localhost:8080" in a web browser and log in using the specified email and password.
-#
+- Access pgAdmin by navigating to "localhost:8080" in a web browser and log in using the specified credentials above
 
-### Networking
+#
+### Docker Networking
+
 Create a Docker network to facilitate communication between PostgreSQL database and pgAdmin:
 ```bash
 docker network create pg-network
@@ -98,18 +101,19 @@ docker run -it \
 --name pgadmin \
 dpage/pgadmin4
 ```
-- Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances.
+- Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances
+
 #
 ### Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
-#
 
-### Convert a Jupyter Notebook to a Script to Run in Cli
+#
+### Convert a Jupyter Notebook to a Script to Run in cli
 ```bash
 jupyter nbconvert --to=script data-upload-to-postgres.ipynb
 ```
 
 ### Automating Data Ingestion
-The script [automating-data-ingestion](automating-data-ingestion.py) demonstrates how to automate the data ingestion process
+The [automating-data-ingestion](automating-data-ingestion.py) script demonstrates an automated data ingestion process
 ```bash
 python automating-data-ingestion.py \
   --user=root \
@@ -121,7 +125,7 @@ python automating-data-ingestion.py \
   --url=${URL}
 ```
 
-### Building and Running a Dockerized Data Ingestion Script
+### Dockerizing the Data Ingestion Script
 To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. 
 
 The original Dockerfile without comments can be found here [Dockerfile](Dockerfile)
@@ -163,7 +167,7 @@ Essentially, when the container starts, it will run "python" and the script "aut
 "
 ```
 
-Run the following command to build the Docker image based on the Dockerfile:
+Run the following command to build the Docker image based on the Dockerfile just created:
 ```bash
 docker build -t taxi_ingest:v001 .
 ```
@@ -194,19 +198,19 @@ Docker Compose YAML files provide an efficient, and standardized way to define, 
 The original file without comments can be found here: [docker-compose.yaml](docker-compose.yaml)
 
 ```Dockerfile
-services: # defines the different containers (services) that make up the  application
- pgdatabase: # service (container) to be configurated
-   image: postgres:13 # Docker image for PostgreSQL version 13
-   environment: # defines environment variables for the container
-     - POSTGRES_USER=root # sets the default user for the PostgreSQL database to 'root'
-     - POSTGRES_PASSWORD=root # sets the default password for the PostgreSQL database to 'root'
-     - POSTGRES_DB=ny_taxi # creates a default database named 'ny_taxi'.
-   volumes: # maps a local directory (right of the colon) to the data directory inside the container (left of the colon)
-    - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
-   ports: # maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine. It's what defines the connection
+services: "defines the different containers (services) that make up the  application"
+ pgdatabase: "service (container) to be configurated"
+   image: postgres:13 "Docker image for PostgreSQL version 13"
+   environment: "defines environment variables for the container"
+     - POSTGRES_USER=root "sets the default user for the PostgreSQL database to 'root'"
+     - POSTGRES_PASSWORD=root "sets the default password for the PostgreSQL database to 'root'"
+     - POSTGRES_DB=ny_taxi "creates a default database named 'ny_taxi'."
+   volumes: "maps a local directory (right of the colon) to the data directory inside the container (left of the colon)"
+    - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw" ""rw" specifies that both read and write operations are allowed on this volume"
+   ports: "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine. It's what defines the connection"
     - "5432:5432" 
- pgadmin: # the next service (container) to be configurated
-   image: dpage/pgadmin4 # official pgAdmin 4 image
+ pgadmin: "the next service (container) to be configurated"
+   image: dpage/pgadmin4 "official pgAdmin 4 image"
    environment:
      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
      - PGADMIN_DEFAULT_PASSWORD=root
