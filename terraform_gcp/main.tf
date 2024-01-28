@@ -9,8 +9,8 @@ terraform {
 
 provider "google" {
   credentials = file(var.credentials)
-  project = var.project
-  region  = var.region
+  project     = var.project
+  region      = var.region
 }
 
 resource "google_storage_bucket" "terraform-demo-bucket" {
@@ -30,5 +30,5 @@ resource "google_storage_bucket" "terraform-demo-bucket" {
 
 resource "google_bigquery_dataset" "dataset" {
   dataset_id = var.bq_dataset_name
-  location = var.location
+  location   = var.location
 }
