@@ -171,7 +171,7 @@ Run the following command to build the Docker image based on the Dockerfile just
 ```bash
 docker build -t taxi_ingest:v001 .
 ```
-- The "." signifies the current directory, indicating where Docker should look for the Dockerfile.
+- The "." signifies the current directory, indicating where Docker should look for the Dockerfile
 
 ### Executing the Data Ingestion Container
 First, set the URL in your command line:
