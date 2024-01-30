@@ -18,7 +18,7 @@ This is a project I completed on setting up a PostgreSQL database within a Docke
 
 This repository features projects using a variety of technologies and tools pertinent to the field of data engineering, including:
 
-- Google Cloud (GCS: data lake, BigQuery: data warehouse)
+- Google Cloud (GCS: data lake, BigQuery: data warehouse, IAM & Admin: setting up service accounts and keys, Compute Engine: )
 - Terraform: IaC
 - Docker: containerization
 - Python
