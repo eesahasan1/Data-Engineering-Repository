@@ -105,6 +105,7 @@ sudo gpasswd -a $gzuz docker
 sudo service docker restart
 ```
 3. Verify these changes:
+
 ![Alt text](data/images/image2.png)
 
 #
