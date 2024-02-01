@@ -1,5 +1,5 @@
 # Setting Up a Cloud Environment With GCP, Docker, and Terraform
-This project serves as a personal guide and reminder for setting up and managing cloud infrastructure, VM instances, Docker containers, and using Terraform for infrastructure automation, and it's done through a virtual environment using GCP's virtual machine. 
+This project serves as a personal guide and reminder for setting up and managing cloud infrastructure, VM instances, Docker containers, and using Terraform for infrastructure automation all done through a virtual environment using GCP's virtual machine. 
 
 #
 ### Setting up SSH Access
