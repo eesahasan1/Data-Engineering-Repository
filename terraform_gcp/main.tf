@@ -1,4 +1,4 @@
-# Setting up a cloud environment
+# GCP VM Configuration
 
 resource "google_compute_instance" "de-prac" {
   boot_disk {
