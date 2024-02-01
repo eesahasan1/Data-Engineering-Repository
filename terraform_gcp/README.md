@@ -1,8 +1,8 @@
 # Setting Up a Cloud Environment With GCP, Docker, and Terraform
 This project serves as a personal guide and reminder for setting up and managing cloud infrastructure, VM instances, Docker containers, and using Terraform for infrastructure automation all done through a virtual environment using GCP's virtual machine. 
 
-#
-### Setting up SSH Access
+
+## Setting up SSH Access
 **Ensures secure and easy access to the virtual machines and containers:**
 
 1. Create an .ssh/ directory
@@ -24,8 +24,7 @@ ssh-keygen -t rsa -f gcp -C gzuz -b 2048
     - In the GCP console, navigate to Compute Engine > Settings. Add the public SSH key under Metadata.
     - Use cat `~/.ssh/gcp.pub` to display the key and copy its contents into the SSH key field in the GCP Console.
 
-#
-### Creating and Accessing a VM Instance
+## Creating and Accessing a VM Instance
 1. Creating a VM instance:
 - Navigate to the Virtual Machines menu under Compute Engine in GCP and create an instance with the desired specifications.
     1. Changed name
@@ -45,8 +44,8 @@ ssh -i file-name username@ip
 ssh -i gcp gzuz@34.67.217.8                                               
 ```
 
-#
-### Installing Anaconda and Docker
+
+## Installing Anaconda and Docker
 Set up Anaconda for a data science/analytics environment and Docker for container management
 
 - Install Anaconda:
@@ -67,8 +66,8 @@ sudo apt-get update # updates the list of packages
 sudo apt-get install docker.io
 ```
 
-#
-### Simplifying Access with a `config` File
+
+## Simplifying Access with a `config` File
 Creating a [config](.ssh/config) file will make it easier and quicker to access the environment:
 ```bash
 Host de-prac
@@ -77,8 +76,8 @@ Host de-prac
     IdentityFile ~/.ssh/gcp # must be in home directory for it to work
 ```
 
-#
-### Using VScode with Remote SSH
+
+## Using VScode with Remote SSH
 Leveraging VSCode for remote development:
 1. Download remote SSH extension in VSCode.
 2. Connect to the host (your VM) using the configured SSH settings for streamlined code management and development.
@@ -88,8 +87,8 @@ Leveraging VSCode for remote development:
 git clone https://github.com/eesahasan1/Data-Engineering-Repository.git
 ```
 
-#
-### Using Docker Without `sudo` in VM Instance
+
+## Using Docker Without `sudo` in VM Instance
 Configure Docker to run without `sudo` for every command:
 1. Create a Docker group and add user:
 ```
@@ -108,8 +107,7 @@ sudo service docker restart
 
 ![Alt text](data/images/image2.png)
 
-#
-### Downloading and Setting Up Docker Compose
+## Downloading and Setting Up Docker Compose
 Install Docker Compose for multi-container Docker applications management:
 1. Make a `bin` directory to store the docker compose file
 ```bash
@@ -131,8 +129,8 @@ export PATH="${HOME}/bin:${PATH}"
 ```
 > ***The `.bashrc` file is a script that runs every time a new terminal session is started in interactive mode using the Bash shell. It's one of the startup files used to configure a user's shell environment. `.bashrc` stands for "Bash run commands."***
 
-#
-### Handling Docker Permission Error
+
+## Handling Docker Permission Error
 When encountering permission issues/error after trying to run `docker-compose up -d`, adjust permission or add user to the Docker group for a safer resolution:
 
 - Run this command for a quick fix (note that it may introduce security risks):
@@ -170,8 +168,8 @@ Example:
 sudo usermod -aG docker $gzuz
 ```
 
-#
-### Installing and Using pgcli for Database Access In Terminal
+
+## Installing and Using pgcli for Database Access In Terminal
 `pgcli` is a command-line interface for Postgres
 
 - Install pgcli using pip:
@@ -193,8 +191,8 @@ pgcli -h localhost -U root -d ny_taxi
 
 To view running Docker containers enter `docker ps` or all containers `docker ps -a`
 
-#
-### Accessing Containerized pgAdmin Web Interface in the VM
+
+## Accessing Containerized pgAdmin Web Interface in the VM
 1. Copy port information:
    - From the VM terminal, run `docker ps` and copy the port information of the container to be accessed.
 2. Configure SSH in VSCode:
@@ -207,8 +205,8 @@ To view running Docker containers enter `docker ps` or all containers `docker ps
 
 ![!\[Alt text\](image.png)](data/images/image3.png)
 
-#
-### Running Jupyter Notebook in the VM for Data Ingestion
+
+## Running Jupyter Notebook in the VM for Data Ingestion
 To use Jupyter Notebook hosted on the VM:
 
 1. Run Jupyter Notebook:
@@ -236,8 +234,8 @@ pip install psycopg2-binary
 ```
 **After installation, rerun the notebook.**
 
-#
-### Installing terraform
+
+## Installing terraform
 There are two methods to install Terraform:
 1. Direct download:
 ```bash
@@ -252,8 +250,8 @@ When running it this way, `apt` (package manager) automatically places executabl
  sudo apt update && sudo apt install terraform
 ```
 
-#
-### Configuring Google Cloud
+
+## Configuring Google Cloud
 To set up Google Cloud in the VM:
 1. Transfer SSH key via sftp: 
     - Securely transfer your GCP service account key to the VM using `sftp`.
@@ -272,8 +270,8 @@ export GOOGLE_APPLICATION_CREDENTIALS=~/.gc/my-creds.json
 gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
 ```
 
-#
-### Using Terraform
+
+## Using Terraform
 Automate infrastructure deployment with Terraform:
 1. terraform init:
     - Initializes terraform
@@ -288,8 +286,8 @@ variable "credentials" {
 3. terraform apply
     - Final step to apply confifurates for infrastucture management
 
-#
-### Shutdown and Restarting
+
+## Shutdown and Restarting
 - Use `sudo shutdown now` to stop the VM instance
 - When starting the VM instance again, copy the new external IP and replace the old one in the SSH config file from the host machine. 
 ```
