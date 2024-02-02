@@ -199,7 +199,7 @@ Docker Compose YAML files provide an efficient, and standardized way to define, 
 
 The original file without comments can be found here: [docker-compose.yaml](docker-compose.yaml)
 
-```bash
+```docker
 services: "defines the different containers (services) that make up the  application"
  pgdatabase: "service (container) to be configurated"
    image: postgres:13 "Docker image for PostgreSQL version 13"
