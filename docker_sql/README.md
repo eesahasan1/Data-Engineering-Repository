@@ -6,8 +6,7 @@
 - Docker installed and running
 - Basic knowledge of command-line interfaces, Docker commands, and pandas
 
-#
-### Running a PostgreSQL Docker Container
+## Running a PostgreSQL Docker Container
 
 Run the following command in cli to start a PostgreSQL container:
 ```bash
@@ -25,7 +24,7 @@ postgres:13
 docker run -it
 ```
 
-### Connecting to the PostgreSQL Database using `pgcli`
+## Connecting to the PostgreSQL Database using `pgcli`
 
 Istall pgcli for a command-line interface experience:
 - In a terminal:
@@ -53,8 +52,7 @@ pgcli -h localhost -p 5432 -u root -d ny_taxi
 ```
 ![Image](data/images/terminal.png)
 
-#
-### Running pgAdmin in a Docker Container
+## Running pgAdmin in a Docker Container
 
 To manage the PostgreSQL database through a web interface, start pgAdmin using this command:
 ```bash
@@ -66,15 +64,15 @@ dpage/pgadmin4
 ```
 - Access pgAdmin by navigating to "localhost:8080" in a web browser and log in using the specified credentials above
 
-#
-### Docker Networking
+
+## Docker Networking
 
 Create a Docker network to facilitate communication between PostgreSQL database and pgAdmin:
 ```bash
 docker network create pg-network
 ```
 
-### Connecting PostgreSQL and pgAdmin on the Same Network
+## Connecting PostgreSQL and pgAdmin on the Same Network
 
 Reconfigure both services to add them to the network
 
@@ -103,16 +101,16 @@ dpage/pgadmin4
 ```
 - Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances
 
-#
-### Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
 
-#
-### Convert a Jupyter Notebook to a Script to Run in cli
+## Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
+
+
+## Convert a Jupyter Notebook to a Script to Run in cli
 ```bash
 jupyter nbconvert --to=script data-upload-to-postgres.ipynb
 ```
 
-### Automating Data Ingestion
+## Automating Data Ingestion
 The [automating-data-ingestion](automating-data-ingestion.py) script demonstrates an automated data ingestion process
 ```bash
 python automating-data-ingestion.py \
@@ -125,7 +123,7 @@ python automating-data-ingestion.py \
   --url=${URL}
 ```
 
-### Dockerizing the Data Ingestion Script
+## Dockerizing the Data Ingestion Script
 To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. 
 
 The original Dockerfile without comments can be found here [Dockerfile](Dockerfile)
@@ -137,6 +135,7 @@ This line sets the base image for the Docker container.
 Here, it's using the official Python Docker image tagged with 3.11.4, 
 which means this container will have Python version 3.11.4 installed.
 "
+
 RUN pip install pandas sqlalchemy psycopg2 pyarrow requests
 "
 This command runs pip install inside the container, which is Python's package installer. 
@@ -148,17 +147,20 @@ psycopg2: A PostgreSQL database adapter for Python.
 pyarrow: Provides Python bindings to the Apache Arrow data format.
 requests: A library for making HTTP requests.
 "
+
 WORKDIR /app 
 "
 This instruction sets the working directory in the container to "/app". 
 All subsequent commands will be run from this directory. 
 If the directory does not exist, it will be created.
 "
+
 COPY automating-data-ingestion.py automating-data-ingestion.py
 "
 This line copies the automating-data-ingestion.py file from the local machine into the container. 
 The file is placed in the containers working directory "/app", as set by the previous WORKDIR instruction).
 "
+
 ENTRYPOINT [ "python", "automating-data-ingestion.py"]
 "
 Specifies the command to be executed when the container starts. 
@@ -173,7 +175,7 @@ docker build -t taxi_ingest:v001 .
 ```
 - The "." signifies the current directory, indicating where Docker should look for the Dockerfile
 
-### Executing the Data Ingestion Container
+## Executing the Data Ingestion Container
 First, set the URL in your command line:
 ```bash
 URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet"
@@ -191,8 +193,8 @@ docker run -it \
     --table_name=yellow_taxi_data \
     --url=${URL}
 ```
-#
-### Finally, bringing it all together with Docker compose
+
+## Finally, bringing it all together with Docker compose
 Docker Compose YAML files provide an efficient, and standardized way to define, configure, and manage all the components of multi-container Docker applications. 
 
 The original file without comments can be found here: [docker-compose.yaml](docker-compose.yaml)
@@ -206,19 +208,19 @@ services: "defines the different containers (services) that make up the  applica
      - POSTGRES_PASSWORD=root "sets the default password for the PostgreSQL database to 'root'"
      - POSTGRES_DB=ny_taxi "creates a default database named 'ny_taxi'."
    volumes: "maps a local directory (right of the colon) to the data directory inside the container (left of the colon)"
-    - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw" ""rw" specifies that both read and write operations are allowed on this volume"
-   ports: "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine. It's what defines the connection"
+    - ./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw "'rw' specifies that both read and write operations are allowed on this volume"
+   ports: "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine."
     - "5432:5432" 
  pgadmin: "the next service (container) to be configurated"
-   image: dpage/pgadmin4 "official pgAdmin 4 image"
+   image: dpage/pgadmin4 # official pgAdmin 4 image
    environment:
      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
      - PGADMIN_DEFAULT_PASSWORD=root
    ports:
     - "8080:80"
 ```
-#
-### SQL Queries
+
+## SQL Queries
 After running the Docker compose file and all the environmental variables and dependencies are set up, all that's left is to begin analyzing the data. 
 
 Sample queries:
