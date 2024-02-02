@@ -199,20 +199,32 @@ Docker Compose YAML files provide an efficient, and standardized way to define, 
 
 The original file without comments can be found here: [docker-compose.yaml](docker-compose.yaml)
 
-```docker
-services: "defines the different containers (services) that make up the  application"
- pgdatabase: "service (container) to be configurated"
-   image: postgres:13 "Docker image for PostgreSQL version 13"
-   environment: "defines environment variables for the container"
-     - POSTGRES_USER=root "sets the default user for the PostgreSQL database to 'root'"
-     - POSTGRES_PASSWORD=root "sets the default password for the PostgreSQL database to 'root'"
-     - POSTGRES_DB=ny_taxi "creates a default database named 'ny_taxi'."
-   volumes: "maps a local directory (right of the colon) to the data directory inside the container (left of the colon)"
-    - ./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw "'rw' specifies that both read and write operations are allowed on this volume"
-   ports: "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine."
+```dockerfile
+services: 
+"defines the different containers (services) that make up the  application"
+ pgdatabase: 
+ "service (container) to be configurated"
+   image: postgres:13 
+   "Docker image for PostgreSQL version 13"
+   environment: 
+   "defines environment variables for the container"
+     - POSTGRES_USER=root 
+     "sets the default user for the PostgreSQL database to 'root'"
+     - POSTGRES_PASSWORD=root 
+     "sets the default password for the PostgreSQL database to 'root'"
+     - POSTGRES_DB=ny_taxi 
+     "creates a default database named 'ny_taxi'."
+   volumes: 
+   "maps a local directory (right of the colon) to the data directory inside the container (left of the colon)"
+    - ./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw 
+    "'rw' specifies that both read and write operations are allowed on this volume"
+   ports: 
+   "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine."
     - "5432:5432" 
- pgadmin: "the next service (container) to be configurated"
-   image: dpage/pgadmin4 # official pgAdmin 4 image
+ pgadmin: 
+ "the next service (container) to be configurated"
+   image: dpage/pgadmin4 
+   "official pgAdmin 4 image"
    environment:
      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
      - PGADMIN_DEFAULT_PASSWORD=root
