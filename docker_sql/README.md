@@ -1,12 +1,7 @@
 # Setting up a PostgreSQL Database in Docker for Ingesting data and Data Analysis
 
-## This project outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
+This project outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
-### Prerequisites
-- Docker installed and running
-- Basic knowledge of command-line interfaces, Docker commands, and pandas
-
-#
 ### Running a PostgreSQL Docker Container
 
 Run the following command in cli to start a PostgreSQL container:
