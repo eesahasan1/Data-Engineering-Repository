@@ -309,7 +309,7 @@ services:
 
 **Breakdown:**
 
-```bash
+```dockerfile
 services: 
  # "defines the different containers (services) that make up the  application"
  pgdatabase: 
