@@ -311,7 +311,7 @@ services:
 
 ```bash
 services: 
-"defines the different containers (services) that make up the  application"
+ # "defines the different containers (services) that make up the  application"
  pgdatabase: 
  "service (container) to be configurated"
    image: postgres:13 
