@@ -2,8 +2,8 @@
 
 This project outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
-## Running a PostgreSQL Docker Container
 
+## Running a PostgreSQL Docker Container
 Run the following command in cli to start a PostgreSQL container:
 ```bash
 docker run -d \
