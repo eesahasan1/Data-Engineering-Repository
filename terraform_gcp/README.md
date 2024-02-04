@@ -25,14 +25,97 @@ ssh-keygen -t rsa -f gcp -C gzuz -b 2048
     - Use cat `~/.ssh/gcp.pub` to display the key and copy its contents into the SSH key field in the GCP Console.
 
 ## Creating and Accessing a VM Instance
-1. Creating a VM instance:
+Creating a VM instance:
+
+- The following terraform configuration sets up the VM with all the required options and dependencies:
+
+```bash
+# Resource block for creating a virtual machine (VM) instance on Google Cloud Platform (GCP)
+resource "google_compute_instance" "de-prac" {
+  
+  # Configuration for the VM's boot disk (the primary disk containing the operating system)
+  boot_disk {
+    auto_delete = true  # Specifies that the boot disk will be automatically deleted when the VM is deleted, to avoid leaving unused disks.
+    device_name = "de-prac"  # Assigns a name to the boot disk for identification purposes.
+
+    # Parameters for initializing the boot disk with a specific image and settings
+    initialize_params {
+      image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240125"  # Specifies the operating system image for the disk, in this case, Ubuntu 20.04.
+      size  = 30  # Sets the size of the boot disk to 30 GB, providing storage space for the OS and additional files.
+      type  = "pd-balanced"  # Chooses a disk type that balances performance and cost, suitable for a variety of workloads.
+    }
+
+    mode = "READ_WRITE"  # Allows the disk to be both read from and written to, enabling normal operation of the VM.
+  }
+
+  # General settings for the VM instance
+  can_ip_forward      = false  # Disables IP forwarding, which is related to routing and forwarding rules within the VM.
+  deletion_protection = false  # Allows the VM to be deleted without additional protections, making it easier to manage resources.
+  enable_display      = false  # Disables any attached display devices, as this VM is likely managed remotely or doesn't require a GUI.
+
+  # Labels are key-value pairs that help organize and categorize resources within Google Cloud.
+  labels = {
+    goog-ec-src = "vm_add-tf"  # Example label to identify the source or purpose of the VM.
+  }
+
+  machine_type = "e2-standard-4"  # Specifies the VM's hardware configuration, with "e2-standard-4" indicating a standard machine type with 4 vCPUs and 16 GB of memory.
+
+  name = "de-prac"  # The name of the VM instance, used to identify it within the Google Cloud project.
+
+  # Network interface configuration, defining how the VM connects to the network and the internet
+  network_interface {
+    # Access configuration for the network interface, primarily related to external internet access
+    access_config {
+      network_tier = "PREMIUM"  # Selects the PREMIUM network tier for higher performance networking features.
+    }
+
+    queue_count = 0  # Sets the number of packet mirroring queues to 0, as packet mirroring is not used in this configuration.
+    stack_type  = "IPV4_ONLY"  # Specifies that only IPv4 addresses will be used for this VM, not IPv6.
+    subnetwork  = "projects/radiant-psyche-403018/regions/us-central1/subnetworks/default"  # Defines the subnetwork within the VPC (Virtual Private Cloud) that the VM is connected to.
+  }
+
+  # Scheduling options for the VM, affecting how it behaves under certain conditions
+  scheduling {
+    automatic_restart   = true  # Allows the VM to automatically restart if it crashes or is otherwise stopped unexpectedly.
+    on_host_maintenance = "MIGRATE"  # VM is migrated to another host in the event of maintenance, rather than being stopped.
+    preemptible         = false  # Indicates that the VM is not preemptible, meaning it won't be automatically terminated by Google Cloud to free up resources.
+    provisioning_model  = "STANDARD"  # Uses the standard provisioning model, as opposed to a custom or specialized option.
+  }
+
+  # Service account and permissions for the VM, defining what Google Cloud services and resources the VM can access
+  service_account {
+    email  = "294191629607-compute@developer.gserviceaccount.com"  # The service account associated with the VM, used for authentication and authorization.
+    scopes = [  # Defines the access scopes or permissions for the service account, limiting what resources and services the VM can interact with.
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write",
+      "https://www.googleapis.com/auth/service.management.readonly",
+      "https://www.googleapis.com/auth/servicecontrol",
+      "https://www.googleapis.com/auth/trace.append"
+    ]
+  }
+
+  # Configuration for shielded VM options, enhancing the security of the VM
+  shielded_instance_config {
+    enable_integrity_monitoring = true  # Monitors the VM for changes to its boot integrity, helping detect malicious tampering.
+    enable_secure_boot          = false  # Secure boot is not enabled, but when true, it ensures the VM only boots signed software.
+    enable_vtpm                 = true   # Enables a virtual Trusted Platform Module (vTPM), which securely stores cryptographic keys.
+  }
+
+  zone = "us-central1-a"  # Specifies the Google Cloud zone where the VM will be created, affecting its physical location and availability.
+}
+```
+
+> ***Refer to the [GCP configuration terraform file](main.tf) without comments***
+
+2. Manually configure the VM:
+
 - Navigate to the Virtual Machines menu under Compute Engine in GCP and create an instance with the desired specifications.
     1. Changed name
     2. Changed region
     3. Change machine type to e2-standard-4 (4vCPU, 16 GB memory)
     4. Selected Ubuntu 20.04 LTS image and 30 GB boot disk
-> ***Or refer to the [GCP configuration terraform file](main.tf)***
-2. SSH Connection:
+3. SSH Connection:
     - Once the setup is complete, copy the external IP of the VM.
     - Connect to the VM using SSH with the generated key:
 ```bash

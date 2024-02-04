@@ -2,8 +2,8 @@
 
 This project outlines the process for setting up a PostgreSQL database in a Docker container and ingesting data for analysis.
 
-### Running a PostgreSQL Docker Container
 
+## Running a PostgreSQL Docker Container
 Run the following command in cli to start a PostgreSQL container:
 ```bash
 docker run -d \
@@ -16,40 +16,68 @@ postgres:13
 ```
 - `docker run -d` runs the container in the background allowing you to still use the command interface
 - For an interactive session, replace `-d` with `-it`
-```
-docker run -it
-```
 
-### Connecting to the PostgreSQL Database using `pgcli`
+**Breakdown:**
+```bash
+# Run a Docker container in detached mode (in the background)
+docker run -d \
 
-Istall pgcli for a command-line interface experience:
+# Set the POSTGRES_USER environment variable inside the container to "root"
+-e POSTGRES_USER="root" \
+
+# Set the POSTGRES_PASSWORD environment variable inside the container to "root"
+-e POSTGRES_PASSWORD="root" \
+
+# Set the POSTGRES_DB environment variable to create a database named "ny_taxi" upon container startup
+-e POSTGRES_DB="ny_taxi" \
+
+# Mount a volume from the host system to the container. 
+# "$(pwd)/ny_taxi_postgres_data" is the local directory (relative to the current working directory)
+# "/var/lib/postgresql/data" is the container's directory where PostgreSQL stores its data.
+# This ensures data persistence across container restarts.
+-v $(pwd)/ny_taxi_postgres_data:/var/lib/postgresql/data \
+
+# Map port 5432 on the host to port 5432 in the container.
+# This allows you to connect to the PostgreSQL server running inside the container using the host's port 5432.
+-p 5432:5432 \
+
+# Specify the Docker image to use: "postgres:13", which is version 13 of the official PostgreSQL image.
+postgres:13
+
+```
+## Connecting to the PostgreSQL Database using `pgcli`
+Install pgcli for a command-line interface experience
+
+1. Installing pgcli: 
 - In a terminal:
 ```bash
 pip install pgcli
 ```
-- In python or jupyter environment, use:
+- In python or jupyter environment:
 ```bash
 !pip install pgcli
 ```
-Follow the steps outlined in this notebook to batch transfer the data into the PostgresSQL database:
+
+2. Batch data transfer
+- The steps are outlined in this notebook to batch transfer the data into the PostgresSQL database:
 [data-upload-to-postgres](data-upload-to-postgres.ipynb)
 
-**Data Source:**
+> **Data Source:**
 > https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 - Select January 2023 dropdown > (2023 January, "Yellow Taxi Trip Records")
-- Or directly download the file using the this link:
+- Or, use `wget` and paste the following link in cli:
 > https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet
 
 
-Run this command to connect to the PostgreSQL database:
+3. Connect to pg database from terminal to verify the data was processed 
+- Run this command to connect to the PostgreSQL database:
 ```bash
 pgcli -h localhost -p 5432 -u root -d ny_taxi 
 ```
 ![Image](data/images/terminal.png)
 
-#
-### Running pgAdmin in a Docker Container
+## Running pgAdmin in a Docker Container
 
 To manage the PostgreSQL database through a web interface, start pgAdmin using this command:
 ```bash
@@ -59,23 +87,24 @@ docker run -d \
 -p 8080:80 \
 dpage/pgadmin4
 ```
-- Access pgAdmin by navigating to "localhost:8080" in a web browser and log in using the specified credentials above
 
-#
-### Docker Networking
+- Access pgAdmin by navigating to "localhost:8080" in a web browser and log in using the specified credentials.
+
+
+## Docker Networking
 
 Create a Docker network to facilitate communication between PostgreSQL database and pgAdmin:
 ```bash
 docker network create pg-network
 ```
 
-### Connecting PostgreSQL and pgAdmin on the Same Network
+## Connecting PostgreSQL and pgAdmin on the Same Network
 
 Reconfigure both services to add them to the network
 
-PostgreSQL Database with Network Configuration:
+PostgreSQL DB container with network configuration:
 ```bash
-docker run -it \
+docker run -d \
 -e POSTGRES_USER="root" \
 -e POSTGRES_PASSWORD="root" \
 -e POSTGRES_DB="ny_taxi" \
@@ -96,19 +125,30 @@ docker run -it \
 --name pgadmin \
 dpage/pgadmin4
 ```
-- Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances
+- Container naming (--name) helps in identifying and managing containers, especially when handling multiple instances.
 
-#
-### Alternative method to interact with the PostgreSQL database can be found here: [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
 
-#
-### Convert a Jupyter Notebook to a Script to Run in cli
+**Alternative method to interact with the PostgreSQL database can be found here:** [jupyter-to-postgres-connection.ipynb](jupyter-to-postgres-connection.ipynb)
+
+
+## Automating Data Ingestion
+1. Convert Jupyter Notebook to python script in cli for automation:
 ```bash
 jupyter nbconvert --to=script data-upload-to-postgres.ipynb
 ```
+2. Designing the automation python script:
 
-### Automating Data Ingestion
-The [automating-data-ingestion](automating-data-ingestion.py) script demonstrates an automated data ingestion process
+- The [automating-data-ingestion](automating-data-ingestion.py) script automates the process of downloading data and ingesting it into a PostgreSQL database
+
+- The script downloads data from a provided URL.
+- It supports .csv and .parquet file formats for ingestion.
+- Utilizes pandas for data handling and sqlalchemy for database interaction.
+- Employs command-line arguments for database connection details and data source URL.
+
+3. Execute the Automation Script
+
+- Run the script with the necessary parameters to start the data ingestion process:
+
 ```bash
 python automating-data-ingestion.py \
   --user=root \
@@ -119,61 +159,69 @@ python automating-data-ingestion.py \
   --table_name=yellow_taxi_data \
   --url=${URL}
 ```
+- Ensure to replace ${URL} with the actual URL of your data source.
 
-### Dockerizing the Data Ingestion Script
+**Breakdown:**
+# Executes the data ingestion script with specified parameters
+```bash
+python automating-data-ingestion.py \
+  --user=root \                 # Database username
+  --password=root \             # Database password
+  --host=localhost \            # Database host address
+  --port=5432 \                 # Database port
+  --db=ny_taxi \                # Database name to connect to
+  --table_name=yellow_taxi_data \ # Target table for data ingestion
+  --url=${URL}                  # Data source URL
+```
+
+## Dockerizing the Data Ingestion Script
 To dockerize the data ingestion script, a Dockerfile is used to define the environment, dependencies, and the script execution. 
 
-The original Dockerfile without comments can be found here [Dockerfile](Dockerfile)
+**The original Dockerfile without comments can be found here:** [Dockerfile](Dockerfile)
 
 ```Dockerfile
 FROM python:3.11.4 
-"
-This line sets the base image for the Docker container. 
-Here, it's using the official Python Docker image tagged with 3.11.4, 
-which means this container will have Python version 3.11.4 installed.
-"
-RUN pip install pandas sqlalchemy psycopg2 pyarrow requests
-"
-This command runs pip install inside the container, which is Python's package installer. 
-It's used to install several Python libraries:
+# This line sets the base image for the Docker container: Python Docker image tagged with version 3.11.4
 
-pandas: A data manipulation and analysis library.
-sqlalchemy: A SQL toolkit and Object-Relational Mapping (ORM) library.
-psycopg2: A PostgreSQL database adapter for Python.
-pyarrow: Provides Python bindings to the Apache Arrow data format.
-requests: A library for making HTTP requests.
-"
+RUN pip install pandas sqlalchemy psycopg2 pyarrow requests
+# This command runs inside the container when it's initiated 
+# It's used to install several Python libraries:
+
+# pandas: A data manipulation and analysis library.
+# sqlalchemy: A SQL toolkit and Object-Relational Mapping (ORM) library.
+# psycopg2: A PostgreSQL database adapter for Python.
+# pyarrow: Provides Python bindings to the Apache Arrow data format.
+# requests: A library for making HTTP requests.
+
 WORKDIR /app 
-"
-This instruction sets the working directory in the container to "/app". 
-All subsequent commands will be run from this directory. 
-If the directory does not exist, it will be created.
-"
+# This instruction sets the working directory in the container to "/app". 
+# All subsequent commands will be run from this directory. 
+# If the directory does not exist, it will be created.
+
+
 COPY automating-data-ingestion.py automating-data-ingestion.py
-"
-This line copies the automating-data-ingestion.py file from the local machine into the container. 
-The file is placed in the containers working directory "/app", as set by the previous WORKDIR instruction).
-"
+# This line copies the automating-data-ingestion.py file from the local machine into the container and is placed in the containers working directory "/app", as set by the previous WORKDIR instruction.
+
 ENTRYPOINT [ "python", "automating-data-ingestion.py"]
-"
-Specifies the command to be executed when the container starts. 
-In this case, it's executing the Python script "automating-data-ingestion.py" with Python. 
-Essentially, when the container starts, it will run "python" and the script "automating-data-ingestion.py"
-"
+# Specifies the command to be executed when the container starts. 
+# In this case, it's executing the Python script "automating-data-ingestion.py" with Python. 
+# Essentially, when the container starts, it will run "python" and the script "automating-data-ingestion.py"
 ```
 
 Run the following command to build the Docker image based on the Dockerfile just created:
 ```bash
-docker build -t taxi_ingest:v001 .
+docker build -t taxi_ingest:v001 . # "taxi_ingest:v001" is the name given to the image
 ```
 - The "." signifies the current directory, indicating where Docker should look for the Dockerfile
 
-### Executing the Data Ingestion Container
-First, set the URL in your command line:
+## Executing the Data Ingestion Container
+
+1. First, set the URL in your command line:
 ```bash
 URL="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2023-01.parquet"
 ```
-Then, run the Docker container:
+2. Then, run a Docker container based on the "taxi_ingest:v001" image:
+
 ```bash
 docker run -it \
   --network=pg-network \
@@ -186,34 +234,96 @@ docker run -it \
     --table_name=yellow_taxi_data \
     --url=${URL}
 ```
-#
-### Finally, bringing it all together with Docker compose
+**Breakdown:**
+```bash
+# Runs a Docker container interactively (-it) allowing you to interact with the container via the terminal.
+docker run -it \
+
+# Connects the container to a Docker network named 'pg-network'. Allows the container to communicate with other containers on the same network, such as a PostgreSQL database container named 'pg-database'.
+  --network=pg-network \
+
+# Specifies the Docker image to use for the container. In this case, it's using the image tagged as 'taxi_ingest:v001'.
+  taxi_ingest:v001 \
+
+# The following are arguments passed to the entry point of the Docker container. 
+
+# Specifies the username to connect to the PostgreSQL database.
+    --user=root \
+
+# Specifies the password for the database user.
+    --password=root \
+
+# Specifies the hostname of the PostgreSQL database to connect to. Since the container is connected to 'pg-network', it can resolve 'pg-database' as the hostname of another container on the same network that runs the PostgreSQL database.
+    --host=pg-database \
+
+# Specifies the port on which the PostgreSQL database is listening. The default PostgreSQL port is 5432, which is used here.
+    --port=5432 \
+
+# Specifies the name of the database to connect to within the PostgreSQL server. Here, the database is named 'ny_taxi'.
+    --db=ny_taxi \
+
+# Specifies the name of the table within the 'ny_taxi' database where the data should be ingested. The table name is 'yellow_taxi_data'.
+    --table_name=yellow_taxi_data \
+
+# Specifies the URL of the data source from which to ingest data. The actual URL should replace '${URL}' when running the command. Or it can be set prior to running the command by running URL='link'.
+    --url=${URL}
+```
+
+## Configuring Multi-Container Applications with docker-compose
 Docker Compose YAML files provide an efficient, and standardized way to define, configure, and manage all the components of multi-container Docker applications. 
 
 The original file without comments can be found here: [docker-compose.yaml](docker-compose.yaml)
-
-```Dockerfile
-services: "defines the different containers (services) that make up the  application"
- pgdatabase: "service (container) to be configurated"
-   image: postgres:13 "Docker image for PostgreSQL version 13"
-   environment: "defines environment variables for the container"
-     - POSTGRES_USER=root "sets the default user for the PostgreSQL database to 'root'"
-     - POSTGRES_PASSWORD=root "sets the default password for the PostgreSQL database to 'root'"
-     - POSTGRES_DB=ny_taxi "creates a default database named 'ny_taxi'."
-   volumes: "maps a local directory (right of the colon) to the data directory inside the container (left of the colon)"
-    - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw" ""rw" specifies that both read and write operations are allowed on this volume"
-   ports: "maps port 5432 of the container (PostgreSQL's default port) to port 5432 on the host machine. It's what defines the connection"
-    - "5432:5432" 
- pgadmin: "the next service (container) to be configurated"
-   image: dpage/pgadmin4 "official pgAdmin 4 image"
-   environment:
-     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-     - PGADMIN_DEFAULT_PASSWORD=root
-   ports:
-    - "8080:80"
+```yaml
+services:
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ny_taxi
+    volumes:
+     - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+    ports:
+     - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
 ```
-#
-### SQL Queries
+
+**Breakdown:**
+
+```yaml
+services:
+  # Defines a service named 'pgdatabase' which represents a container.
+  pgdatabase:
+    image: postgres:13  # Specifies the Docker image to use for the container, in this case, PostgreSQL version 13.
+    environment:  # Sets environment variables inside the container.
+      - POSTGRES_USER=root  # Defines the default username for the PostgreSQL database.
+      - POSTGRES_PASSWORD=root  # Sets the password associated with the PostgreSQL user.
+      - POSTGRES_DB=ny_taxi  # Specifies the name of the default database to be created upon container startup.
+    volumes:
+      # Maps a volume from the host to the container, specifying a path on the host to store PostgreSQL data.
+      - "./data/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+    ports:
+      # Maps port 5432 on the host to port 5432 in the container, allowing external access to the PostgreSQL server.
+      - "5432:5432"
+      
+  # Defines another service named 'pgadmin' for the PostgreSQL web administration tool.
+  pgadmin:
+    image: dpage/pgadmin4  # Specifies the Docker image for pgAdmin 4, a web-based administration tool for PostgreSQL.
+    environment:  # Sets environment variables for the pgAdmin container.
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com  # Sets the default email address to log into pgAdmin.
+      - PGADMIN_DEFAULT_PASSWORD=root  # Defines the default password for the pgAdmin login.
+    ports:
+      # Maps port 8080 on the host to port 80 in the container, making pgAdmin accessible via the host's port 8080.
+      - "8080:80"
+```
+
+## SQL Queries
 After running the Docker compose file and all the environmental variables and dependencies are set up, all that's left is to begin analyzing the data. 
 
 Sample queries:
