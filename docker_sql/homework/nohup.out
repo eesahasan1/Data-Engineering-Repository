@@ -1,0 +1,62 @@
+[W 06:29:10.025 NotebookApp] Loading JupyterLab as a classic notebook (v6) extension.
+[I 2024-02-02 06:29:10.031 LabApp] JupyterLab extension loaded from /home/gzuz/anaconda3/lib/python3.11/site-packages/jupyterlab
+[I 2024-02-02 06:29:10.031 LabApp] JupyterLab application directory is /home/gzuz/anaconda3/share/jupyter/lab
+[I 06:29:11.506 NotebookApp] Serving notebooks from local directory: /home/gzuz/Data-Engineering-Repository/docker_sql/homework-data-ingestion
+[I 06:29:11.506 NotebookApp] Jupyter Notebook 6.5.4 is running at:
+[I 06:29:11.506 NotebookApp] http://localhost:8888/?token=d52bff3bee0ea309313768a71f5d668866fb1b1970cefc8b
+[I 06:29:11.506 NotebookApp]  or http://127.0.0.1:8888/?token=d52bff3bee0ea309313768a71f5d668866fb1b1970cefc8b
+[I 06:29:11.506 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 06:29:11.510 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/gzuz/.local/share/jupyter/runtime/nbserver-21884-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=d52bff3bee0ea309313768a71f5d668866fb1b1970cefc8b
+     or http://127.0.0.1:8888/?token=d52bff3bee0ea309313768a71f5d668866fb1b1970cefc8b
+[I 06:29:24.980 NotebookApp] Interrupted...
+[I 06:29:24.980 NotebookApp] Shutting down 0 kernels
+[I 06:29:24.980 NotebookApp] Shutting down 0 terminals
+
+  _   _          _      _
+ | | | |_ __  __| |__ _| |_ ___
+ | |_| | '_ \/ _` / _` |  _/ -_)
+  \___/| .__/\__,_\__,_|\__\___|
+       |_|
+                       
+Read the migration plan to Notebook 7 to learn about the new features and the actions to take if you are using extensions.
+
+https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html
+
+Please note that updating to Notebook 7 might break some of your extensions.
+
+[W 06:29:40.321 NotebookApp] Loading JupyterLab as a classic notebook (v6) extension.
+[I 2024-02-02 06:29:40.327 LabApp] JupyterLab extension loaded from /home/gzuz/anaconda3/lib/python3.11/site-packages/jupyterlab
+[I 2024-02-02 06:29:40.327 LabApp] JupyterLab application directory is /home/gzuz/anaconda3/share/jupyter/lab
+[I 06:29:41.775 NotebookApp] Serving notebooks from local directory: /home/gzuz/Data-Engineering-Repository/docker_sql/homework-data-ingestion
+[I 06:29:41.776 NotebookApp] Jupyter Notebook 6.5.4 is running at:
+[I 06:29:41.776 NotebookApp] http://localhost:8888/?token=d9d33521d22efd8ae90b8ee717bbc78d0be2181614d3a265
+[I 06:29:41.776 NotebookApp]  or http://127.0.0.1:8888/?token=d9d33521d22efd8ae90b8ee717bbc78d0be2181614d3a265
+[I 06:29:41.776 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 06:29:41.780 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/gzuz/.local/share/jupyter/runtime/nbserver-22020-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:8888/?token=d9d33521d22efd8ae90b8ee717bbc78d0be2181614d3a265
+     or http://127.0.0.1:8888/?token=d9d33521d22efd8ae90b8ee717bbc78d0be2181614d3a265
+[C 06:34:50.852 NotebookApp] received signal 15, stopping
+[I 06:34:50.853 NotebookApp] Shutting down 0 kernels
+[I 06:34:50.854 NotebookApp] Shutting down 0 terminals
+
+  _   _          _      _
+ | | | |_ __  __| |__ _| |_ ___
+ | |_| | '_ \/ _` / _` |  _/ -_)
+  \___/| .__/\__,_\__,_|\__\___|
+       |_|
+                       
+Read the migration plan to Notebook 7 to learn about the new features and the actions to take if you are using extensions.
+
+https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html
+
+Please note that updating to Notebook 7 might break some of your extensions.
+

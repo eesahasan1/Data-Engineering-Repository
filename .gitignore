@@ -5,3 +5,4 @@ terraform_gcp/.terraform/providers/registry.terraform.io/hashicorp/google/5.13.0
 terraform_gcp/.terraform.lock.hcl
 terraform_gcp/terraform.tfstate
 terraform_gcp/.ssh/gcp
+docker_sql/homework-data-ingestion/nohup.out
