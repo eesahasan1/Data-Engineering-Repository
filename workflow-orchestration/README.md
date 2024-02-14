@@ -1,44 +1,80 @@
-# Building a Pipeline in Mage
+# Building Data a Pipeline with Mage
+
+
+## Table of Contents
+
+1. [Project Overview, Objectives, and Key Features](#overview)
+2. [Configuring Mage](#configuring-mage)
+3. [Configuring Postgres in Mage](#configuring-postgres-in-mage)
+4. [ETL: API to Postgres](#etl-api-to-postgres)
+5. [Configure a GCP Bucket with Mage](#congigure-a-gcp-bucket-with-mage)
+6. [ETL: API to GCS](#etl-api-to-gcs)
+5. [ETL: GCS to BigQuery](#etl-gcs-to-bigquery)
+6. [Deploying Mage to Google Cloud](#deploying-mage-to-google-cloud)
+
+
+
+## Overview
+
+This project focuses on constructing a robust data pipeline using Mage, a powerful tool designed to streamline and automate the process of data extraction, transformation, and loading (ETL). By leveraging Mage's intuitive interface and extensive functionality, it efficiently process large datasets, transform them according to business requirements, and load the refined data into various storage solutions for further analysis and decision-making.
+
+### Objectives
+
+- **Data Extraction:** Automate the extraction of data from diverse sources, including APIs and cloud storage solutions like Google Cloud Storage (GCS).
+- **Data Transformation:** Implement transformation logic to clean, aggregate, and modify the data, ensuring it meets the necessary quality standards for analysis.
+- **Data Loading:** Load the transformed data into PostgreSQL and BigQuery, facilitating easy access and analysis by downstream applications and stakeholders.
+
+### Key Features
+
+- **Configurable ETL Pipelines:** Utilize Mage to create flexible and configurable ETL pipelines that can be easily adjusted to meet evolving data processing needs.
+- **Cloud Integration:** Seamlessly integrate with cloud services such as GCS and BigQuery, enabling efficient data storage and analysis in a scalable cloud environment.
+- **Data Quality Assurance:** Implement data validation and cleaning steps within the pipeline to ensure high data quality and reliability.
+
+
 
 ## Configuring Mage
-1. Clone the repository
+**1. Clone the Repository**
+
 ```
 git clone https://github.com/mage-ai/mage-zoomcamp.git
 ```
 
-- Use `ls -la` to view hidden files, including files that start with "."
+- Use `ls -la` to view hidden files, including files that start with ".".
 
-2. Prepare environmental variables
+**2. Prepare Environmental Variables**
 - Before any Docker or Docker Compose commands, run:
 ```
 cp dev.env .env
 ```
 - The .env file contains environment variables for the project.
-- It's necessary to copy this file because it's ignored by git and needed to inject variables for certain parameters.
-- This approach minimizes the risk of accidentally committing files with potential security risks.
+    
+    >**Important:** It's necessary to copy this file because it's ignored by git and needed to inject variables into certain parameters. This approach minimizes the risk of accidentally committing files with potential security risks.
 
-3. Building the Docker image
+**3. Building the Docker Image**
 - Build the image before running it to ensure the container runs with the latest code and dependencies:
-```
+```bash
 docker compose build
 ```
 
-4. Updating the Docker image
+**4. Updating the Docker Image**
 - The image might be missing updates. Run the following command to update it to the latest version:
-```
+```bash
 docker pull mageai/mageai:latest
 ```
 
-5. Start the containers
-Now that the image is updated, run the following command to start the containers:
+**5. Start the Containers**
+- Now that the image is updated, run the following command to start the containers:
 ```
 docker compose up
 ```
+- Enter localhost:6789 in a web browser to access Mage GUI.
 
-- Enter localhost:6789 in a web browser to access Mage GUI
+
 
 ## Configuring Postgres in Mage
-1. In the configuration file "io_config.yaml," add the following profile for PostgreSQL:
+**1. Modify the Configuration File**
+- In the configuration file "io_config.yaml," add the following profile for PostgreSQL:
+
 ```yaml
 dev:
   POSTGRES_CONNECT_TIMEOUT: 10
@@ -50,19 +86,24 @@ dev:
   POSTGRES_PORT: "{{env_var('POSTGRES_PORT')}}"
 ```
 
-2. Create a new sql data loader block with postgres connection with dev profile
-- Run the following to ensure the connection works
+**2. Create a New SQL Data Loader Block**
+- Select `PostgresSQL` connection and `dev` for profile.
+- Ensure the connection works by running:
+
 ```sql
 select 1;
 ```
 ![Alt text](data/images/image.png)
 
+
+
 ## ETL: API to Postgres
 Loading data from an API to PostgreSQL
 
-1. Create a new standard pipeline
+**1. Create a New Standard Pipeline**
 - With a data loader block, select Python for language and API for template.
-- Paste the URL 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz' in the URL parameter in Mage.
+- Paste the following URL in the URL parameter in Mage:
+    > https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz
 
 ```python
 @data_loader
@@ -73,16 +114,16 @@ def load_data_from_api(*args, **kwargs):
     url = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz'
 ```
 
-2. Remove unecessary code
-- Remove the following code as it is not needed for csv files:
-```
+**2. Remove Unnecessary Code**
+- The following code is not needed for CSV files and can be removed:
+```python
     response = requests.get(url)
 
     return pd.read_csv(io.StringIO(response.text), sep=',')
 ```
 
-3. Data types
-- Set explicit dtypes and parse dates to optimize memory usage. Pandas can do it on its own but this helps with memory management.
+**3. Data Types**
+- Optimize memory usage by setting explicit data types and parsing dates:
 ```python
 # Define a dictionary mapping column names to their data types.
 # This ensures each column is read with the specified type, improving memory usage and data integrity.
@@ -117,9 +158,10 @@ return pd.read_csv(
     url, sep=',', compression='gzip', dtype=taxi_dtypes, parse_dates=parse_dates
 )
 ```
+- Pandas can do it on its own but this helps with memory management.
 
-4. Create a transform block
-- Some of the taxi rides have 0 passengers which need to be removed since the data is incorrect:
+**4. Create a Transform Block**
+- Address incorrect data, such as rides with 0 passengers:
 ```python
 # Decorator indicating this function is used for transforming data.
 @transformer
@@ -140,7 +182,7 @@ def test_output(output, *args) -> None:
     assert output.passenger_count.isin([0]).sum() == 0, 'There are rides with zero passengers'
 ```
 
-5. Create a data exporter block 
+**5. Create a Data Exporter Block**
 - Ingest the transformed data into PostgreSQL:
 
 ```python
@@ -163,41 +205,43 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
 
 ```
 
-6. Verify data ingestion
-- Create a sql data loader block and run the following command:
+**6. Verify Data Ingestion**
+- Confirm data ingestion with a SQL data loader block:
 ```sql
 select * from ny_taxi_data.yellow_taxi_data limit 10
 ```
-- this should show the first 10 rows
+
+
 
 ## Congigure a GCP Bucket with Mage
-1. Create a GCS Bucket
+**1. Create a GCS Bucket**
 - Navigate to Google Cloud Storage and create a new bucket.
 
-2. Service Account and JSON Key
+**2. Service Account and JSON Key**
 - Create a new service account in the IAM & Admin section.
 - Generate and download a JSON key for this account.
 
 
-3. Save JSON Key
+**3. Save JSON Key**
 - Store the JSON key in a secure location on local machine.
 
-4. Update Mage Configuration
+**4. Update Mage Configuration**
 - In Mage GUI, navigate to `io_config.yaml`.
 - Add the path to your JSON key in the `GOOGLE_SERVICE_ACC_KEY_FILEPATH` parameter.
 
-5. Test connection
+**5. Test connection**
 - Initiate a new pipeline in Mage.
 - Create an SQL data loader block and execute:
+
 ```sql
 select 1;
 ```
 - A successful query indicates a proper connection setup.
 
-6. Upload Data File
+**6. Upload Data File**
 - Upload the `titanic_clean.csv` file to your GCS bucket.
 
-7. Data Loader Block Setup
+**7. Data Loader Block Setup**
 - Create a new data loader block with Python and the GCS template.
 - Configure the block with the following parameters:
 
@@ -217,20 +261,22 @@ def load_from_google_cloud_storage(*args, **kwargs):
 ```
 - Execute the block to load data from GCS.
 
+
+
 ## ETL: API to GCS
 Process of ingesting data into a GCS bucket configured earlier with Mage AI.
 
-1. Standard Pipeline Creation
+**1. Standard Pipeline Creation**
 - Utilize previous pipelines for Postgres for data loader and transformer through drag and drop.
 
-2. Data Exporter Block
+**2. Data Exporter Block**
 - Implement a new data exporter block with Python and the GCS template.
 - Ensure correct configurations like bucket name and object are set, then run.
 
 ![Alt text](data/images/image-1.png)
 
-3. Partitioning Datasets
-- For large datasets, partitioning can enhance speed and manage memory efficiently.
+**3. Partitioning Datasets**
+- For large datasets, partitioning can enhance speed and memory management.
 - Implement a Python data loader without a template and connect it to the transformer block.
 - Partition data by date using the following script:
 
@@ -279,37 +325,45 @@ def export_data(data, *args, **kwargs):
     )
 ```
 
+
+
 ## ETL: GCS to BigQuery
 Migrate data from GCS to BigQuery for processing and storage.
 
-1. Batch Pipeline Creation
+**1. Batch Pipeline Creation**
 - In Mage, initiate a new batch pipeline.
 - Set up a data loader block with Python and GCS template.
 
-2. SQL Data Exporter Block
-Configure a SQL data exporter block.
-Input `ny_taxi` for schema and `yellow_taxi_data` for the table.
+**2. SQL Data Exporter Block**
+- Configure a SQL data exporter block.
+- Input `ny_taxi` for schema and `yellow_taxi_data` for the table.
+- Run the query:
+    - Running this query essentially ingests the data into bigquery.
 
-## Deployment Mage to Google Cloud
-1. Permissions Setup
+![Alt text](data/images/image-4.png)
+![Alt text](data/images/image-5.png)
+
+
+
+## Deploying Mage to Google Cloud
+**1. Permissions Setup**
 - Assign owner permissions to the service account for full access. Adjust permissions based on real-world needs to minimize user accessibility and security risks.
 
-2. gcloud CLI Installation
+**2. gcloud CLI Installation**
 - Follow the installation guide:
     > https://cloud.google.com/sdk/docs/install
 
-3. Terraform Template Repo Cloning
-- clone the following repo to access terraform templates for the required cloud provider
+**3. Terraform Template Repo Cloning**- clone the following repo to access terraform templates for the required cloud provider
     > https://github.com/mage-ai/mage-ai-terraform-templates
 
-4. VSCode Setup
+**4. VSCode Setup**
 - Change to the cloned directory and open in VSCode:
 ```
 code .
 ```
 - If `code` is not recognized, install it via VSCode's command palette.
 
-5. Terraform Configuration
+**5. Terraform Configuration**
 - Update main.tf and variables.tf with necessary configurations.
 - Add the following variables to main.tf:
 
@@ -328,7 +382,7 @@ provider "google-beta" {
 }
 ```
 
-- **Add the following to variables.tf:**
+- Add the following to variables.tf:
 ```bash
 variable "credentials_file_path" {
   description = "Path to the Google Cloud credentials file"
@@ -338,23 +392,19 @@ variable "credentials_file_path" {
 - Use `terraform plan` and `terraform apply` with specified variables for deployment, make sure to declare the following variables:
 
 ```bash
-terraform plan -var="credentials_file_path=/path/to/credentials.json" -var="project_id=project_name"
-```
-- **Or:**
-```bash
-terraform apply -var="credentials_file_path=/path/to/credentials.json" -var="project_id=project_name"
+terraform plan/apply -var="credentials_file_path=/path/to/credentials.json" -var="project_id=project_name"
 ```
 
-6. API Enablement
+**6. API Enablement**
 - Enable required APIs in Google Cloud Console:
     - Cloud SQL Admin API 
     - Cloud Filestore API
     - Serverless VPC Access API
 
-7. Cloud Run Access
+**7. Cloud Run Access**
 - In Google Cloud Console, navigate to Cloud Run.
 - Access the newly created resource and whitelist the user's IP address for access.
-    - Or, for a quick fix:
+    - Or, for a quick fix (may introduce security risks):
         - Navigate to Ingress Control.
         - Select all and save.
 - Adjust ingress settings for broader access if necessary.
