@@ -8,7 +8,7 @@ As someone deeply fascinated by data and its incredible potential to drive progr
 ## Projects Overview 📁
 Here's a quick overview of what you'll find in this repository:
 
-**Project 1:** [Dockerized PostgreSQL for Data Engineering](docker_sql)
+**Project 1:** [Dockerized PostgreSQL for Data Engineering and Analysis](docker_sql)
 
 This is a project on setting up a PostgreSQL database within a Docker container, tailored for data ingestion and analysis. It provides detailed instructions on running a PostgreSQL Docker container, connecting to the database using pgcli, managing the database through pgAdmin, and bringing it all together with a Docker-compose file all within a Dockerized environment. 
 
