@@ -3,22 +3,22 @@
 
 
 ## Table of Contents
-[Overview](#overview)
-[Setting up SSH Access](#setting-up-ssh-access)
-[Creating and Accessing a VM Instance](#creating-and-accessing-a-vm-instance)
-[Installing Anaconda and Docker](#installing-anaconda-and-docker)
-[Simplifying Access with a config File](#simplifying-access-with-a-config-file)
-[Using VScode with Remote SSH](#using-vscode-with-remote-ssh)
-[Using Docker Without sudo in VM Instance](#using-docker-without-sudo-in-vm-instance)
-[Downloading and Setting Up Docker Compose](#downloading-and-setting-up-docker-compose)
-[Handling Docker Permission Error](#handling-docker-permission-error)
-[Installing and Using pgcli for Database Access In Terminal](#installing-and-using-pgcli-for-database-access-in-terminal)
-[Accessing Containerized pgAdmin Web Interface in the VM](#accessing-containerized-pgadmin-web-interface-in-the-vm)
-[Running Jupyter Notebook in the VM for Data Ingestion](#running-jupyter-notebook-in-the-vm-for-data-ingestion)
-[Installing Terraform](#installing-terraform)
-[Configuring Google Cloud](#configuring-google-cloud)
-[Using Terraform](#using-terraform)
-[Shutdown and Restarting](#shutdown-and-restarting)
+1. [Overview](#overview)
+1. [Setting up SSH Access](#setting-up-ssh-access)
+1. [Creating and Accessing a VM Instance](#creating-and-accessing-a-vm-instance)
+1. [Installing Anaconda and Docker](#installing-anaconda-and-docker)
+1. [Simplifying Access with a config File](#simplifying-access-with-a-config-file)
+1. [Using VScode with Remote SSH](#using-vscode-with-remote-ssh)
+1. [Using Docker Without sudo in VM Instance](#using-docker-without-sudo-in-vm-instance)
+1. [Downloading and Setting Up Docker Compose](#downloading-and-setting-up-docker-compose)
+1. [Handling Docker Permission Error](#handling-docker-permission-error)
+1. [Installing and Using pgcli for Database Access In Terminal](#installing-and-using-pgcli-for-database-access-in-terminal)
+1. [Accessing Containerized pgAdmin Web Interface in the VM](#accessing-containerized-pgadmin-web-interface-in-the-vm)
+1. [Running Jupyter Notebook in the VM for Data Ingestion](#running-jupyter-notebook-in-the-vm-for-data-ingestion)
+1. [Installing Terraform](#installing-terraform)
+1. [Configuring Google Cloud](#configuring-google-cloud)
+1. [Using Terraform](#using-terraform)
+1. [Shutdown and Restarting](#shutdown-and-restarting)
 
 
 
