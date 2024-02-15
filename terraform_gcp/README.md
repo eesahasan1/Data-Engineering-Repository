@@ -28,17 +28,17 @@ This project provides a detailed guide for setting up a cloud environment using 
 
 ### Objective
 
-**Streamlined Cloud Setup**: Simplifies the process of setting up and accessing cloud environments.
-**Secure and Efficient Access**: Establishes secure SSH access to virtual machines and Docker containers to ensure data safety and operational efficiency.
-**Infrastructure Automation**: Leverages Terraform to automate the provisioning of cloud resources, minimizing manual effort and potential for error.
-**Scalable Data Workflows**: Demonstrates the creation of scalable data pipelines, from extraction and transformation to loading, employing modern cloud and data engineering practices.
+- **Streamlined Cloud Setup**: Simplifies the process of setting up and accessing cloud environments.
+- **Secure and Efficient Access**: Establishes secure SSH access to virtual machines and Docker containers to ensure data safety and operational efficiency.
+- **Infrastructure Automation**: Leverages Terraform to automate the provisioning of cloud resources, minimizing manual effort and potential for error.
+- **Scalable Data Workflows**: Demonstrates the creation of scalable data pipelines, from extraction and transformation to loading, employing modern cloud and data engineering practices.
 
 ### Key Features
 
-**Comprehensive SSH Configuration**: Steps on creating and managing SSH keys for secure access to cloud resources.
-**VM Instance Setup with Terraform**: Deployment of GCP virtual machines with configurations optimized for various use cases.
-**Container Management with Docker**: Insights into Docker setup for containerization, improving application consistency and deployment speed.
-**Data Engineering Workflows**: Examples of automating data extraction, transformation, and loading processes, showcasing the integration with GCP buckets, PostgreSQL, and BigQuery.
+- **Comprehensive SSH Configuration**: Steps on creating and managing SSH keys for secure access to cloud resources.
+- **VM Instance Setup with Terraform**: Deployment of GCP virtual machines with configurations optimized for various use cases.
+- **Container Management with Docker**: Insights into Docker setup for containerization, improving application consistency and deployment speed.
+- **Data Engineering Workflows**: Examples of automating data extraction, transformation, and loading processes, showcasing the integration with GCP buckets, PostgreSQL, and BigQuery.
 
 
 
