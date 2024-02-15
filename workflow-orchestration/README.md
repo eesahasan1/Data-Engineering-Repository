@@ -20,14 +20,13 @@
 This project focuses on constructing a robust data pipeline using Mage, a powerful tool designed to streamline and automate the process of data extraction, transformation, and loading (ETL). By leveraging Mage's intuitive interface and extensive functionality, it efficiently process large datasets, transform them according to business requirements, and load the refined data into various storage solutions for further analysis and decision-making.
 
 ### Objectives
----
 
 - **Data Extraction:** Automate the extraction of data from diverse sources, including APIs and cloud storage solutions like Google Cloud Storage (GCS).
 - **Data Transformation:** Implement transformation logic to clean, aggregate, and modify the data, ensuring it meets the necessary quality standards for analysis.
 - **Data Loading:** Load the transformed data into PostgreSQL and BigQuery, facilitating easy access and analysis by downstream applications and stakeholders.
 
 ### Key Features
----
+
 - **Configurable ETL Pipelines:** Utilize Mage to create flexible and configurable ETL pipelines that can be easily adjusted to meet evolving data processing needs.
 - **Cloud Integration:** Seamlessly integrate with cloud services such as GCS and BigQuery, enabling efficient data storage and analysis in a scalable cloud environment.
 - **Data Quality Assurance:** Implement data validation and cleaning steps within the pipeline to ensure high data quality and reliability.

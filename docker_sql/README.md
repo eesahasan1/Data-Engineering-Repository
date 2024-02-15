@@ -1,5 +1,5 @@
 # Setting up a PostgreSQL Database in Docker for Ingesting Data for Analysis
----
+
 
 
 ## Table of Contents
