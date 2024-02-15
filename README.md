@@ -15,7 +15,7 @@ This is a project on setting up a PostgreSQL database within a Docker container,
 Key elements include: 
 - Creating a Docker network for seamless communication between the PostgreSQL database and pgAdmin
 - Integrating batch data transfer from external sources
-- Automating the ingesting process using python scripts
+- Automating the ingestion process using a python script
 
 **Just one so far!** 😆
 
