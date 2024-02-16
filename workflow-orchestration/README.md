@@ -215,12 +215,13 @@ select * from ny_taxi_data.yellow_taxi_data limit 10
 
 **7. Verify Data Ingestion Using `pgcli`**
 
-Alternative method to verify ingestion using `pgcli`: A command line interface used for interacting with postgres databases.
+Alternative method to verify ingestion using `pgcli`: A command line interface used to interact with postgres databases.
 
 - Run the following command to interact with postgres from terminal:
 ```bash
 pgcli -h postgres -U postgres -d postgres
 ```
+
 - If the desired schema isn't showing, use the following commands:
 ```sql
 -- verify the shema is there
@@ -231,7 +232,11 @@ SELECT schema_name FROM information_schema.schemata;
 -- set search path to `ny_taxi_data`
 SET search_path TO ny_taxi_data;
 ```
+
 ![Alt Text](data/images/image-6.png)
+
+
+
 ## Congigure a GCP Bucket with Mage
 **1. Create a GCS Bucket**
 - Navigate to Google Cloud Storage and create a new bucket.
