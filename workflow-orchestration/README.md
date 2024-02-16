@@ -74,7 +74,7 @@ docker compose up
 
 ## Configuring Postgres in Mage
 **1. Modify the Configuration File**
-- In the configuration file "io_config.yaml," add the following profile for PostgreSQL:
+- In the configuration file `io_config.yaml`, add the following profile for PostgreSQL:
 
 ```yaml
 dev:
