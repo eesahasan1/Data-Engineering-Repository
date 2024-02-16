@@ -1,8 +1,12 @@
+# docker_sql
 docker_sql/data/yellow_tripdata_2023-01.csv
+docker_sql/homework-data-ingestion/nohup.out
+docker_sql/data/ny_taxi_postgres_data
+
+#terraform_gcp
 terraform_gcp/data/keys
 terraform_gcp/terraform.tfstate.backup
 terraform_gcp/.terraform/providers/registry.terraform.io/hashicorp/google/5.13.0/darwin_arm64/terraform-provider-google_v5.13.0_x5
 terraform_gcp/.terraform.lock.hcl
 terraform_gcp/terraform.tfstate
 terraform_gcp/.ssh/gcp
-docker_sql/homework-data-ingestion/nohup.out

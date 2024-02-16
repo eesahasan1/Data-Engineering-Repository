@@ -34,6 +34,7 @@ This project focuses on constructing a robust data pipeline using Mage, a powerf
 
 
 ## Configuring Mage
+
 **1. Clone the Repository**
 
 ```
@@ -49,7 +50,7 @@ cp dev.env .env
 ```
 - The .env file contains environment variables for the project.
     
-    >**Important:** It's necessary to copy this file because it's ignored by git and needed to inject variables into certain parameters. This approach minimizes the risk of accidentally committing files with potential security risks.
+    >***Important***: *It's necessary to copy this file because it's ignored by git and needed to inject variables into certain parameters. This approach minimizes the risk of accidentally committing files with potential security risks.*
 
 **3. Building the Docker Image**
 - Build the image before running it to ensure the container runs with the latest code and dependencies:
@@ -68,7 +69,7 @@ docker pull mageai/mageai:latest
 ```
 docker compose up
 ```
-- Enter localhost:6789 in a web browser to access Mage GUI.
+- Enter `localhost:6789` in a web browser to access Mage GUI.
 
 
 
@@ -212,8 +213,25 @@ def export_data_to_postgres(df: DataFrame, **kwargs) -> None:
 select * from ny_taxi_data.yellow_taxi_data limit 10
 ```
 
+**7. Verify Data Ingestion Using `pgcli`**
 
+Alternative method to verify ingestion using `pgcli`: A command line interface used for interacting with postgres databases.
 
+- Run the following command to interact with postgres from terminal:
+```bash
+pgcli -h postgres -U postgres -d postgres
+```
+- If the desired schema isn't showing, use the following commands:
+```sql
+-- verify the shema is there
+SELECT current_schema();
+SELECT schema_name FROM information_schema.schemata;
+```
+```sql
+-- set search path to `ny_taxi_data`
+SET search_path TO ny_taxi_data;
+```
+![Alt Text](data/images/image-6.png)
 ## Congigure a GCP Bucket with Mage
 **1. Create a GCS Bucket**
 - Navigate to Google Cloud Storage and create a new bucket.
