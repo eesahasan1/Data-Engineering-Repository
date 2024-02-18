@@ -12,4 +12,4 @@ terraform_gcp/terraform.tfstate
 terraform_gcp/.ssh/gcp
 
 # data_warehouse
-data_warehouse/bigquery/serving_dir
+data_warehouse/bigquery
