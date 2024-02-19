@@ -13,3 +13,6 @@ terraform_gcp/.ssh/gcp
 
 # data_warehouse
 data_warehouse/bigquery
+
+# analytics_engineering
+*.json
