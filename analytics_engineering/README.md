@@ -20,3 +20,15 @@
 - git clone desired repository for version control
 - dbt will generate a deploy key which will need to be uploaded to the desired repo under security > deploy keys
 
+{{}} means macros
+
+window functions: 
+```sql
+select row_number() over(order by LocationID) as row_num, * from {{ ref('taxi_zone_lookup') }}
+
+select * from {{ ref('taxi_zone_lookup') }}
+```
+
++ in the beginning and end means all projects
+
+dbt docs generate - generates documentation
