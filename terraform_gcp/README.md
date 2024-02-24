@@ -214,6 +214,10 @@ Host de-prac
     IdentityFile ~/.ssh/gcp # must be in home directory for it to work
 ```
 
+- To enter the VM after exiting, simply type `ssh vm_instance`:
+```bash
+ssh de-prac
+```
 
 
 ## Using VScode with Remote SSH
