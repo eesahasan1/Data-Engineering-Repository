@@ -16,9 +16,6 @@ data_warehouse/bigquery
 
 # analytics_engineering
 *.json
-
-# analytics_engineering
-*.json
 analytics_engineering/README.md
 analytics_engineering/yellow_tripdata_2019-09.csv.gz
 analytics_engineering/dbt-ny-taxi-rides/.gitignore
