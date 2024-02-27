@@ -1,3 +1,3 @@
-## Visualitzation Chart
+## Visualization Chart
 
 ![alt text](image.png)
