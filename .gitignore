@@ -10,3 +10,12 @@ terraform_gcp/.terraform/providers/registry.terraform.io/hashicorp/google/5.13.0
 terraform_gcp/.terraform.lock.hcl
 terraform_gcp/terraform.tfstate
 terraform_gcp/.ssh/gcp
+
+# data_warehouse
+data_warehouse/bigquery
+
+# analytics_engineering
+*.json
+analytics_engineering/README.md
+analytics_engineering/yellow_tripdata_2019-09.csv.gz
+analytics_engineering/dbt-ny-taxi-rides/.gitignore
