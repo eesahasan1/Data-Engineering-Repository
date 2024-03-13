@@ -2,3 +2,5 @@
 * text=auto
 batch_spark/code/data/raw/yellow/2020/01/yellow_tripdata_2020_01.csv.gz filter=lfs diff=lfs merge=lfs -text
 batch_spark/code/data/raw/yellow/2020/02/yellow_tripdata_2020_02.csv.gz filter=lfs diff=lfs merge=lfs -text
+batch_spark/code/data/taxi+_zone_lookup.csv filter=lfs diff=lfs merge=lfs -text
+batch_spark/code/data/fhvhv_tripdata_2021-01.parquet filter=lfs diff=lfs merge=lfs -text

@@ -212,6 +212,7 @@ Remaining steps and configuration can be found in the following notebook: [06_sp
 
 
 
+
 ## Local Cluster and Spark-Submit
 
 Creating a stand-alone cluster: ([documentation](https://spark.apache.org/docs/latest/spark-standalone.html)):
