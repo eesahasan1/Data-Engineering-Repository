@@ -1,3 +1,5 @@
+*.ipynb_checkpoints
+
 # docker_sql
 docker_sql/data/yellow_tripdata_2023-01.csv
 docker_sql/homework-data-ingestion/nohup.out
@@ -19,3 +21,5 @@ data_warehouse/bigquery
 analytics_engineering/README.md
 analytics_engineering/yellow_tripdata_2019-09.csv.gz
 analytics_engineering/dbt-ny-taxi-rides/.gitignore
+
+# batch_spark
